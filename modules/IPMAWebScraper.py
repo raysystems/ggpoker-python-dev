@@ -76,5 +76,5 @@ def parse_response(html_content):
     #print(weather)
     return weather
 
-response = get_weather_forecast("Madeira", "Funchal")
-parse_response(response)
+#response = get_weather_forecast("Madeira", "Funchal")
+#parse_response(response)
