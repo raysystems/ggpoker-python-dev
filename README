@@ -1,0 +1,14 @@
+Análise da situação
+
+
+Escolha da tecnologia:
+
+Irei usar webscrap com o pack. requests.
+Após analisar o site o ipma, no link https://www.ipma.pt/pt/otempo/prev.localidade.hora/#Set%C3%BAbal&Montijo
+Na parte final tem duas variável, distrito / ilha e após o separador & Cidade/Vila e isto URL encoded.
+
+Para dar parse à resposta recebida do servidor irei usar o pack. BeautifulSoup4.
+
+Estrutura do parse:
+
+- Após analisar o inspecionar elemento da página em questão verifico que cada div com o classname "weekly-column" conresponde a um dia da semana.
