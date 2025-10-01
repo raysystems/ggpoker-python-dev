@@ -1,4 +1,4 @@
-##### Instruções de instalação ####
+#  Instruções de instalação
 
 A aplicação encontra-se dockerizada. Para uma melhor compatibilidade foi testado em amd64 e arm64 em mackbook M1, sem problemas.
 
@@ -15,7 +15,7 @@ docker build -t ggpoker-dev-docker .
 
 Nota: Poderá demorar um pouco, dado que o playwright tem de fazer download dos browsers e das dependências exigidas na documentação.
 
-##### Como Iniciar a aplicação ####
+#  Como Iniciar a aplicação 
 
 1. Executar o container com a imagem criada `ggpoker-dev-docker`
 2. 
@@ -30,7 +30,7 @@ docker run -it -p 8000:8000 ggpoker-dev-docker
 
 
 
-##### Como utilizar a API ####
+#  Como utilizar a API 
 
 
 Rota: /weatherForecast/{destrict}/{city}/{day}
