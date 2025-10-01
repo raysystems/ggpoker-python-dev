@@ -2,7 +2,7 @@
 from app.modules.IPMAWebScraper import get_weather_forecast, parse_response
 def getWeatherForeCast(req: dict ):
     awnser = get_weather_forecast(req['destrict'], req['city'])
-    weather_data = parse_response(awnser)
+    weather_data = parse_response(awnser, req['destrict'], req['city'])
 
 
     apireturn_data = {}
