@@ -12,8 +12,8 @@ def get_weather_forecast(destrict, city):
         Parses the HTML content to extract weather forecast data.
 
         Args:
-            destrict (str): Destrict name
-            city (str): City name
+            destrict - string: Destrict name
+            city - string: City name
 
         Returns:
             string: Returns HTML of parsed page by playwright
@@ -39,7 +39,7 @@ def parse_response(html_content, destrict, city):
         Parses the HTML content to extract weather forecast data.
 
         Args:
-            html_content (str): HTML content of the weather forecast page.
+            html_content - string: HTML content of the weather forecast page.
 
         Returns:
             dict: A dictionary containing extracted weather data.
