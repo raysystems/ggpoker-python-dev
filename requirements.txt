@@ -1,4 +1,4 @@
 fastapi
-selenium
+playwright
 uvicorn
 bs4
