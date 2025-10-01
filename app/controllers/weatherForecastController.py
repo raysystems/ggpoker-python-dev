@@ -9,6 +9,8 @@ def getWeatherForeCast(req: dict ):
     if req['day'] == "all":
         apireturn_data = weather_data
     else:
-        apireturn_data = awnser[req['day']]
+        if req['day'] not in weather_data:
+            return {"status": "error", "message": f"Day is not available in IPMA. Only Days - (" + ", ".join(weather_data.keys()) + " )"}
+        apireturn_data = weather_data[req['day']]
 
     return {"status": "ok", "data": apireturn_data}
