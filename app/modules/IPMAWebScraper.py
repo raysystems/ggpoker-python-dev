@@ -1,42 +1,40 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
+
 from bs4 import BeautifulSoup
 import time
 import tempfile
+from app.cache.IPMACacheService import cacheIPMA
+from app.cache.IPMACacheService import search_in_cache
+
+from playwright.sync_api import sync_playwright
 
 def get_weather_forecast(destrict, city):
     """
-        Gets the weather forecast for a given district and city using Selenium packd. .
+        Parses the HTML content to extract weather forecast data.
 
         Args:
-            destrict (str): Name of the district or island
-            city (str): Name of the city or town
+            destrict (str): Destrict name
+            city (str): City name
 
         Returns:
-            str: HTML content of the weather forecast page.
+            string: Returns HTML of parsed page by playwright
     """
     destrict = destrict.replace(" ", "%20")
     city = city.replace(" ", "%20")
+    if (search_in_cache(destrict, city)):
+        cacheIPMAData = cacheIPMA[f"{destrict.lower()}_{city.lower()}"]
+        return cacheIPMAData
 
     url_to_fetch = f"https://www.ipma.pt/pt/otempo/prev.localidade.hora/#{destrict}&{city}"
 
-    options = Options()
-    user_data_dir = tempfile.mkdtemp()
-    options.add_argument(f"--user-data-dir={user_data_dir}")
-    options.add_argument("--headless=new")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    driver = webdriver.Chrome(options=options)
-    driver.get(url_to_fetch)
-
-
-    html_content = driver.page_source
-    driver.quit()
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        page = browser.new_page()
+        page.goto(url_to_fetch)
+        html_content = page.content()
+        browser.close()
     return html_content
 
-def parse_response(html_content):
+def parse_response(html_content, destrict, city):
     """
         Parses the HTML content to extract weather forecast data.
 
@@ -46,7 +44,10 @@ def parse_response(html_content):
         Returns:
             dict: A dictionary containing extracted weather data.
     """
-
+    cache = search_in_cache(destrict, city)
+    if (cache):
+        print("cache hit ", cacheIPMA[f"{destrict.lower()}_{city.lower()}"]["data"])
+        return cacheIPMA[f"{destrict.lower()}_{city.lower()}"]["data"]
     soup = BeautifulSoup(html_content, 'html.parser')
     # Get the weekly forecast div
     week_forecast = soup.find('div', id='weekly')
@@ -78,5 +79,10 @@ def parse_response(html_content):
 
 
     print(weather)
+    if (not cache):
+        cacheIPMA[f"{destrict.lower()}_{city.lower()}"] = {
+            "data": weather,
+            "ttl": time.time()
+        }
     return weather
 
