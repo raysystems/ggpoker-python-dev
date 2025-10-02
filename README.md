@@ -65,3 +65,7 @@ Método: GET
 http://localhost:8000/weatherForecast/Lisboa/Odivelas/4
 ```
 Método: GET
+
+#  Para um ambiente de Produção
+
+A api deveria validar os dados recebidos o par de strings para garantir sanitização. De qualquer modo isto é um webscrap em que e guardado num dicionário os dados obtidos não existe base de dados ou perigos associados à não validação pois quem receber a querie é o website do ipma.
